@@ -1,0 +1,14 @@
+
+
+we've packaged the code. to make changes, in case anything is wrong with 
+the packaged code (our custom library including the environments), you 
+need to make changes, commit them, push them, and then, with the virtual 
+environment active, from the project home directory's parent directory, 
+run the command 'pip install -e gym-examples'. this will reinstall the 
+package from the corresponding github repo.
+
+then, to import the stuff, you do the usual (although the typical usage 
+isn't quite as shown below):
+'from gym_examples.envs import GridWorldEnv'
+
+
