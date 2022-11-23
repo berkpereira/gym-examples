@@ -14,7 +14,7 @@ class GridWorldEnv(gym.Env):
         # Observations are dictionaries with the agent's and the target's location
         # Each location is encoded as an element of {0, ..., `size`}^2, i.e., MultiDiscrete([size], [size])
         # Essentially cartesian coordinates
-        self.observation_space = spaces.Dict(
+        self.observation_space = spaces.Dict(   
             {
                 'agent': spaces.Box(0, size-1, shape=(2,), dtype=int),
                 'target': spaces.Box(0, size-1, shape=(2,), dtype=int),
@@ -86,7 +86,7 @@ class GridWorldEnv(gym.Env):
         )
         # An episode is done iff the agent has reached the target
         terminated = np.array_equal(self._agent_location, self._target_location)
-        reward = 1 if terminated else 0 # Using binary sparse rewards
+        reward = 0 if terminated else -1 # Using binary sparse rewards
         observation = self._get_obs()
         info = self._get_info()
 
