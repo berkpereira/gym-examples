@@ -5,7 +5,7 @@ import numpy as np
 
 
 class GridWorldEnv(gym.Env):
-    metadata = {'render_modes': ['human', 'rgb_array'], 'render_fps': 4}
+    metadata = {'render_modes': ['human', 'rgb_array'], 'render_fps': 1}
 
     def __init__(self, render_mode=None, size=5):
         self.size = size # Size of the square grid
