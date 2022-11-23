@@ -5,7 +5,7 @@ import numpy as np
 
 
 class GridWorldEnv(gym.Env):
-    metadata = {'render_modes': ['human', 'rgb_array'], 'render_fps': 1}
+    metadata = {'render_modes': ['human', 'rgb_array'], 'render_fps': 2}
 
     def __init__(self, render_mode=None, size=5):
         self.size = size # Size of the square grid
@@ -118,7 +118,8 @@ class GridWorldEnv(gym.Env):
             canvas,
             (255, 0, 0),
             pygame.Rect(
-                pix_square_size * self._target_location,
+                # in the line below, have to flip the elements in self._target_location, so that rendering corresponds to matrix indexing (row, col) <-> (self._target_location[0], self._target_location[1])
+                pix_square_size * np.flip(self._target_location),
                 (pix_square_size, pix_square_size),
             ),
         )
@@ -127,7 +128,8 @@ class GridWorldEnv(gym.Env):
         pygame.draw.circle(
             canvas,
             (0, 0, 255),
-            (self._agent_location + 0.5) * pix_square_size,
+            # in the line below, have to flip the elements in self._target_location, so that rendering corresponds to matrix indexing (row, col) <-> (self._target_location[0], self._target_location[1])
+            (np.flip(self._agent_location) + 0.5) * pix_square_size,
             pix_square_size / 3,
         )
 
