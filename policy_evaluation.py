@@ -1,6 +1,8 @@
 # here we implement policy iteration based on the simple gridworld run by explore.py
 # using OpenAI gyms for this would pose some challenges at first, but the problem is simple enough to just be put together using numpy arrays
 
+test_grid_size = int(input('Enter grid size to use: '))
+
 import time
 import numpy as np
 
@@ -37,12 +39,15 @@ class MarkovGridWorld():
 
 
 # epsilon = the threshold delta must go below in order for us to stop
-def policy_evaluation(policy, MDP, epsilon=0.1, max_iterations=20):
+def policy_evaluation(policy, MDP, epsilon=0.2, max_iterations=20):
     current_value = np.zeros([MDP.grid_size, MDP.grid_size])
     change = np.zeros([MDP.grid_size, MDP.grid_size]) # this will store the change in the value for each state, in the latest iteration
     delta = 0 # initialising the variable that will store the max change in the value_function across all states
     iteration_no = 0
-    while (delta == 0 or delta > epsilon) and iteration_no <= max_iterations:
+    while (delta == 0 or delta > epsilon) and iteration_no < max_iterations:
+        print('Iteration number:')
+        print(iteration_no)
+        print()
         print('Value:')
         print(current_value)
         print()
@@ -68,11 +73,11 @@ def policy_evaluation(policy, MDP, epsilon=0.1, max_iterations=20):
         print()
         print()
         print()
-        time.sleep(1)
+        time.sleep(0.4)
         iteration_no += 1
     return current_value
 
-value = policy_evaluation(policy = test_policy, MDP = MarkovGridWorld(grid_size = 4), max_iterations = 10, epsilon = 5)
+value = policy_evaluation(policy = test_policy, MDP = MarkovGridWorld(grid_size = test_grid_size))
 
 print('Final value function estimate:')
 print(value)
