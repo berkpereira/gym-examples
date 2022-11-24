@@ -1,10 +1,11 @@
 # here we implement policy iteration based on the simple gridworld run by explore.py
 # using OpenAI gyms for this would pose some challenges at first, but the problem is simple enough to just be put together using numpy arrays
-
-test_grid_size = int(input('Enter grid size to use: '))
-
+import os
 import time
 import numpy as np
+
+os.system('cls' if os.name == 'nt' else 'clear')
+test_grid_size = int(input('Enter grid size to use: '))
 
 # even though not being used at the moment, for generality we're defining the policy as being a function of an action and a current state
 def test_policy(action, state):
@@ -43,14 +44,14 @@ def policy_evaluation(policy, MDP, epsilon=0.2, max_iterations=20):
     current_value = np.zeros([MDP.grid_size, MDP.grid_size])
     change = np.zeros([MDP.grid_size, MDP.grid_size]) # this will store the change in the value for each state, in the latest iteration
     delta = 0 # initialising the variable that will store the max change in the value_function across all states
-    iteration_no = 0
-    while (delta == 0 or delta > epsilon) and iteration_no < max_iterations:
-        print('Iteration number:')
-        print(iteration_no)
+    iteration_no = 1
+    while (delta == 0 or delta > epsilon) and iteration_no <= max_iterations:
+        print(f'Iteration number: {iteration_no}')
+        print(f'Max iterations: {max_iterations}')
+        print(f'Epsilon: {epsilon}')
         print()
-        print('Value:')
+        print('Current value function estimate:')
         print(current_value)
-        print()
         print()
 
         for row in range(MDP.grid_size):
@@ -67,13 +68,13 @@ def policy_evaluation(policy, MDP, epsilon=0.2, max_iterations=20):
                 
                 change[tuple(state)] = abs(current_value[tuple(state)] - old_state_value)
         delta = change.max()
-        print('Absolute changes to value function:')
+        print('Absolute changes to value function estimate:')
         print(change)
         print()
         print()
         print()
         print()
-        time.sleep(0.4)
+        time.sleep(0.5)
         iteration_no += 1
     return current_value
 
@@ -81,3 +82,4 @@ value = policy_evaluation(policy = test_policy, MDP = MarkovGridWorld(grid_size 
 
 print('Final value function estimate:')
 print(value)
+print()
