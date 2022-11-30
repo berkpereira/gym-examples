@@ -1,4 +1,4 @@
-import gym as gym
+import gym
 import gym_examples
 import pygame
 
@@ -41,13 +41,6 @@ class ValueFunction():
         self.grid_size = grid_size
         self.current_value = np.zeros([grid_size, grid_size])
 
-        
 
-    
-
-    
-
-def policy_evaluation(grid_size):
-    value_function = np.zeros([grid_size, grid_size])
 
 run_environment(grid_size = 5, policy = test_policy)
