@@ -11,7 +11,13 @@ test_grid_size = int(input('Enter grid size to use: '))
 def test_policy(action, state):
     return 0.25
 
-# this class codifies all the dynamics of the problem: a simple gridworld, with the target in the lower-right corner
+
+
+
+# this class codifies all the dynamics of the problem: a simple gridworld, with the target in the lower-right corner.
+# as a starter in implementing GridWorld stochastics, I will try to program simple stochastics into this gridworld's dynamics
+# E.G., given a certain action in a rectangular direction, we can assign the successor state some stochastics like
+# 85% probability of ending up where you expected, and 5% in each of the 3 other directions.
 class MarkovGridWorld():
     def __init__(self, grid_size=3, discount_factor=1):
         self.grid_size = grid_size # keep this unchanged, things are mostly hardcoded at the moment
@@ -27,7 +33,7 @@ class MarkovGridWorld():
             3: np.array([0, -1]),
         }
 
-    # this is where the actual dyamics live
+    # this is where the actual DYNAMICS live
     def state_transition(self, state, action):
         direction = self.action_to_direction[action]
         new_state = np.clip(
@@ -59,12 +65,12 @@ def policy_evaluation(policy, MDP, epsilon=0.2, max_iterations=20):
                 state = np.array([row,col])
                 old_state_value = current_value[tuple(state)]
                 
-                val = 0
+                current_value_update = 0
                 # using deterministic MDP where an action from a state fully determines the successor state here!
                 for action in MDP.action_space:
                     successor_state, reward = MDP.state_transition(state, action)
-                    val += policy(action, state) * (reward + MDP.discount_factor * current_value[tuple(successor_state)])
-                current_value[tuple(state)] = val
+                    current_value_update += policy(action, state) * (reward + MDP.discount_factor * current_value[tuple(successor_state)])
+                current_value[tuple(state)] = current_value_update
                 
                 change[tuple(state)] = abs(current_value[tuple(state)] - old_state_value)
         delta = change.max()
@@ -74,12 +80,15 @@ def policy_evaluation(policy, MDP, epsilon=0.2, max_iterations=20):
         print()
         print()
         print()
-        time.sleep(0.5)
+        time.sleep(0.3)
         iteration_no += 1
     return current_value
 
-value = policy_evaluation(policy = test_policy, MDP = MarkovGridWorld(grid_size = test_grid_size))
 
+
+
+
+value = policy_evaluation(policy = test_policy, MDP = MarkovGridWorld(grid_size = test_grid_size))
 print('Final value function estimate:')
 print(value)
 print()
